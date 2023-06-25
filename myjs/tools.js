@@ -35,12 +35,12 @@ module.exports.err_msg = err_msg;
  */
 function my_log_block_error(block_id, block_opcode, error){
     const err_str = 
-`ClipCCExtensionBlockError 
-extension:${extension_id} 
-blockid:${block_id} 
-opcode:${block_opcode} 
-time:${Date.now()}
-error:${error}`
+`ClipCCExtensionBlockError
+{"extension":"${extension_id}",
+"blockid":${JSON.stringify(block_id)},
+"opcode":${JSON.stringify(block_opcode)},
+"time":"${Date.now()}",
+"error":${JSON.stringify(error.toString())}}`
     ;
     err_msg[0] = err_str;
     console.error( err_str );
@@ -57,18 +57,17 @@ module.exports.my_log_block_error = my_log_block_error;
 function to_scratch_type(v){
     switch( typeof v ){
         case 'string':
-            return v;
-        case 'boolean':
+          case 'boolean':
             return v;
         case 'number':
-            if(Number.isFinite(v) || Number.isNaN(v))
-                return String(v);
+            if( !Number.isFinite(v) || Number.isNaN(v) )
+                break;
             return v;
         case 'object':
             try{
                 return JSON.stringify(v);
             }catch{
-                return String(v);
+                break;
             }
     }
     return String(v);

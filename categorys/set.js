@@ -117,10 +117,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
         function: (args,util)=>{
             try{
                 let v2 = args.v2;
-                if( typeof v2 !== 'object' )
+                if( typeof v2 !== 'object' ){
                     try{
                         v2 = JSON.parse( v2 );
                     }catch{}
+                }
                 
                 args.v1.delete(v2);
                 return args.v1;
@@ -147,10 +148,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
         function: (args,util)=>{
             try{
                 let v2 = args.v2;
-                if( typeof v2 !== 'object' )
+                if( typeof v2 !== 'object' ){
                     try{
                         v2 = JSON.parse( v2 );
                     }catch{}
+                }
                 
                 return args.v1.delete(v2);
             }catch(e){
@@ -176,10 +178,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
         function: (args,util)=>{
             try{
                 let v2 = args.v2;
-                if( typeof v2 !== 'object' )
+                if( typeof v2 !== 'object' ){
                     try{
                         v2 = JSON.parse( v2 );
                     }catch{}
+                }
                 
                 return args.v1.has(v2);
             }catch(e){

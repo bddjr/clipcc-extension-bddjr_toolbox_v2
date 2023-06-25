@@ -208,7 +208,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
                         thisjson[setKey] %= setValue;
                         break;
                     default:
-                        throw 'Not allowed operator!';
+                        throw `${args.operator} is not allowed operator!`;
                 }
                 return returnType( globaljson, args.return_type );
             }catch(e){
@@ -256,6 +256,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
                 let thisjson = args.v1;
                 if( typeof thisjson !== 'object' )
                     thisjson = JSON.parse( thisjson );
+
                 return returnType( Object[ args.v2 ]( thisjson ), args.return_type );
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
@@ -283,6 +284,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
                 let thisjson = args.v1;
                 if( typeof thisjson !== 'object' )
                     thisjson = JSON.parse( thisjson );
+
                 return thisjson.hasOwnProperty( args.key );
 
             }catch(e){
@@ -321,6 +323,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
                 let thisjson = args.v1;
                 if( typeof thisjson !== 'object' )
                     thisjson = JSON.parse( thisjson );
+
                 let globaljson = thisjson;
 
                 // 不包含的keymode会抛出错误

@@ -68,7 +68,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         function: (args,util)=>{
             try{
                 // 仅表示成功创建对象。由于该函数是异步执行，所以无法直接返回是否成功复制。
-                return !!window.navigator?.clipboard?.writeText( String(args.v1) );
+                return !!window.navigator?.clipboard?.writeText?.( String(args.v1) );
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e );
             }
@@ -379,10 +379,9 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
-                let a;
                 switch( args.type ){
                     case 'list':
-                        a = get_var_obj_from_sprite_name(
+                        var a = get_var_obj_from_sprite_name(
                             util,
                             args.sprite_type,
                             args.sprite_name,
@@ -393,7 +392,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
                             throw `Can not get list from sprite_type:${args.sprite_type} sprite_name:${args.sprite_name} name:${args.name}`;
                         return JSON.stringify(a.value);
                     case 'var':
-                        a = get_var_obj_from_sprite_name(
+                        var a = get_var_obj_from_sprite_name(
                             util,
                             args.sprite_type,
                             args.sprite_name,
@@ -475,6 +474,8 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     case '%=':
                         v %= args.v;
                         break;
+                    default:
+                        throw `${args.operator} is not allowed operator!`;
                 }
                 
                 a.value = to_scratch_type( v );
@@ -699,6 +700,8 @@ module.exports = ( category_id )=>{ api.addBlocks([
                         case '%=':
                             target[ IN ] %= (+SET);
                             break;
+                        default:
+                            throw `${args.operator} is not allowed operator!`;
                     }
                 }else if( IN === 'effects' ){
                     // 特效
@@ -813,6 +816,8 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     case '%=':
                         target.effects[ args.effect_name ] %= Number(args.set);
                         break;
+                    default:
+                        throw `${args.operator} is not allowed operator!`;
                 }
 
                 target.updateAllDrawableProperties(); //让scratch更新渲染

@@ -12,37 +12,6 @@ const {
 } = require('../myjs/menus');
 
 
-//2.0.0
-function clear_all_var( util ){
-    util.bddjr_toolbox_v2_temp_var = {}
-}
-
-//2.0.0
-function if_undefined_clear( util ){
-    if( util.bddjr_toolbox_v2_temp_var === undefined ){
-        clear_all_var(util)
-    }
-}
-
-//2.0.0
-/**
- * 
- * @param {string} sprite_type 
- * @param {string} sprite_name 
- */
-function clear_sprite_all( util, sprite_type, sprite_name ){
-    get_sprite_target( util, sprite_type, sprite_name ).bddjr_toolbox_v2_temp_var = {}
-}
-
-//2.0.0
-function if_undefined_clear_sprite( target ){
-    if( target.bddjr_toolbox_v2_temp_var === undefined ){
-        target.bddjr_toolbox_v2_temp_var = {}
-    }
-}
-
-
-
 /** @param {string} category_id */
 module.exports = ( category_id )=>{ api.addBlocks([
     {//2.0.0
@@ -50,7 +19,12 @@ module.exports = ( category_id )=>{ api.addBlocks([
         messageId: `${category_id}.clear_all`,
         categoryId: category_id,
         type: type.BlockType.COMMAND,
-        function: (args,util)=> clear_all_var(util)
+        function: (args,util)=>{
+            Reflect.deleteProperty(
+                util ,
+                'bddjr_toolbox_v2_temp_var'
+            );
+        }
     },
 //===========================================================
     {//2.0.0
@@ -75,7 +49,9 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
-                if_undefined_clear(util);
+                if( util.bddjr_toolbox_v2_temp_var === undefined ){
+                    util.bddjr_toolbox_v2_temp_var = {}
+                }
                 switch( args.operator ){
                     case '=':
                         util.bddjr_toolbox_v2_temp_var[ args.name ] = args.v;
@@ -95,6 +71,8 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     case '%=':
                         util.bddjr_toolbox_v2_temp_var[ args.name ] %= args.v;
                         break;
+                    default:
+                        throw `${args.operator} is not allowed operator!`;
                 }
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
@@ -193,7 +171,10 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
-                clear_sprite_all( util, args.sprite_type, args.sprite_name );
+                Reflect.deleteProperty(
+                    get_sprite_target( util, args.sprite_type, args.sprite_name ) ,
+                    'bddjr_toolbox_v2_temp_var'
+                );
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
             }
@@ -234,7 +215,9 @@ module.exports = ( category_id )=>{ api.addBlocks([
         function: (args,util)=>{
             try{
                 let target = get_sprite_target( util, args.sprite_type, args.sprite_name );
-                if_undefined_clear_sprite( target );
+                if( target.bddjr_toolbox_v2_temp_var === undefined ){
+                    target.bddjr_toolbox_v2_temp_var = {}
+                }
                 switch( args.operator ){
                     case '=':
                         target.bddjr_toolbox_v2_temp_var[ args.name ] = args.v;
@@ -254,6 +237,8 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     case '%=':
                         target.bddjr_toolbox_v2_temp_var[ args.name ] %= args.v;
                         break;
+                    default:
+                        throw `${args.operator} is not allowed operator!`;
                 }
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )

@@ -32,16 +32,9 @@ const categorys = {//2.0.0
 };
 
 
-/**@type {string[]}*/
-const categorys_id = [];//2.0.0
-for( let i of Object.keys(categorys) ){//2.0.0
-    categorys_id.push(`${extension_id}.${i}`);
-}
-
-
 function my_onUninit(){//2.0.0
-    for( let i of categorys_id ){
-        api.removeCategory( i );
+    for( let i in categorys ){
+        api.removeCategory(`${extension_id}.${i}`);
     }
 }
 

@@ -67,6 +67,22 @@ module.exports = ( category_id )=>{ api.addBlocks([
     },
 //===========================================================
     {//2.0.0
+        opcode: `${category_id}.undefined`,
+        messageId: `${category_id}.undefined`,
+        categoryId: category_id,
+        type: type.BlockType.REPORTER,
+        function: ()=> undefined
+    },
+//===========================================================
+    {//2.0.0
+        opcode: `${category_id}.null`,
+        messageId: `${category_id}.null`,
+        categoryId: category_id,
+        type: type.BlockType.REPORTER,
+        function: ()=> null
+    },
+//===========================================================
+    {//2.0.0
         opcode: `${category_id}.is_array`,
         messageId: `${category_id}.is_array`,
         categoryId: category_id,
@@ -86,11 +102,49 @@ module.exports = ( category_id )=>{ api.addBlocks([
         type: type.BlockType.BOOLEAN,
         param: {
             v: {
-                type: type.ParameterType.NUMBER,
-                default: '0'
+                type: undefined
             }
         },
         function: (args,util)=> Number.isNaN( args.v )
+    },
+//===========================================================
+    {//2.0.0
+        opcode: `${category_id}.is_Finite`,
+        messageId: `${category_id}.is_Finite`,
+        categoryId: category_id,
+        type: type.BlockType.BOOLEAN,
+        param: {
+            v: {
+                type: undefined
+            }
+        },
+        function: (args,util)=> Number.isFinite( args.v )
+    },
+//===========================================================
+    {//2.0.0
+        opcode: `${category_id}.is_undefined`,
+        messageId: `${category_id}.is_undefined`,
+        categoryId: category_id,
+        type: type.BlockType.BOOLEAN,
+        param: {
+            v: {
+                type: undefined
+            }
+        },
+        function: (args,util)=> ( args.v === undefined )
+    },
+//===========================================================
+    {//2.0.0
+        opcode: `${category_id}.is_null`,
+        messageId: `${category_id}.is_null`,
+        categoryId: category_id,
+        type: type.BlockType.BOOLEAN,
+        param: {
+            v: {
+                type: undefined
+            }
+        },
+        function: (args,util)=> ( args.v === null )
     },
 //===========================================================
     {//2.0.0
@@ -231,6 +285,22 @@ module.exports = ( category_id )=>{ api.addBlocks([
     },
 //===========================================================
     {//2.0.0
+        opcode: `${category_id}.true`,
+        messageId: `${category_id}.true`,
+        categoryId: category_id,
+        type: type.BlockType.BOOLEAN,
+        function: ()=> true
+    },
+//===========================================================
+    {//2.0.0
+        opcode: `${category_id}.false`,
+        messageId: `${category_id}.false`,
+        categoryId: category_id,
+        type: type.BlockType.BOOLEAN,
+        function: ()=> false
+    },
+//===========================================================
+    {//2.0.0
         opcode: `${category_id}.==`,
         messageId: '[v1] == [v2]',
         categoryId: category_id,
@@ -319,7 +389,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=> {
             try{
-                return Number(args.v).toString( args.count );
+                return Number( args.v ).toString( args.count );
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e );
             }
@@ -342,8 +412,10 @@ module.exports = ( category_id )=>{ api.addBlocks([
             },
         },
         function: (args,util)=>{
-            if( args.count =='' ) return Number.parseInt( args.v );
-            return Number.parseInt( args.v, args.count )
+            return Number.parseInt(
+                args.v,
+                args.count ==='' ? undefined : args.count
+            );
         }
     },
 //===========================================================
@@ -504,7 +576,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     let s = String( args.v );
                     return s.charCodeAt( s.length + n1 );
                 }
-                return String( args.v ).charCodeAt( args.n1 );
+                return String( args.v ).charCodeAt( n1 );
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e );
             }

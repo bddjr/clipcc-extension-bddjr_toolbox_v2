@@ -13,10 +13,7 @@ const {
 } = require('../myjs/menus.js');
 
 
-function get_value_for_sort( thisjson, keymode, key ){
-    // 不包含的keymode会抛出错误
-    let keyslist = for_json_get_keys( keymode, key );
-
+function get_value_for_sort( thisjson, keymode, keyslist ){
     if( typeof keyslist === 'number' ){
         return thisjson[ keyslist ];
     }
@@ -91,10 +88,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     v1 = JSON.parse( v1 );
 
                 let v2 = args.v2;
-                if( typeof v2 !== 'object' )
+                if( typeof v2 !== 'object' ){
                     try{
                         v2 = JSON.parse( v2 );
                     }catch{}
+                }
 
                 v1.push(v2)
                 return returnType( v1, args.return_type );
@@ -152,10 +150,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     v1 = JSON.parse( v1 );
 
                 let v2 = args.v2;
-                if( typeof v2 !== 'object' )
+                if( typeof v2 !== 'object' ){
                     try{
                         v2 = JSON.parse( v2 );
                     }catch{}
+                }
 
                 return v1.indexOf(v2);
 
@@ -222,10 +221,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     v1 = JSON.parse( v1 );
 
                 let v2 = args.v2;
-                if( typeof v2 !== 'object' )
+                if( typeof v2 !== 'object' ){
                     try{
                         v2 = JSON.parse( v2 );
                     }catch{}
+                }
 
                 return v1.includes(v2);
 
@@ -516,10 +516,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     v1 = JSON.parse( v1 );
 
                 let v2 = args.v2;
-                if( typeof v2 === 'string' )
+                if( typeof v2 === 'string' ){
                     try{
                         v2 = JSON.parse( `[${v2}]` );
                     }catch{}
+                }
 
                 v1.splice(
                     args.n1, args.n2,
@@ -679,12 +680,14 @@ module.exports = ( category_id )=>{ api.addBlocks([
                                 args.return_type
                             );
                         }
+                        // 不包含的keymode会抛出错误
+                        var keyslist = for_json_get_keys( args.keymode, args.key );
                         return returnType(
                             v.sort((a,b)=>{
                                 return (
-                                    get_value_for_sort( a, args.keymode, args.key )
+                                    get_value_for_sort( b, args.keymode, keyslist )
                                     -
-                                    get_value_for_sort( b, args.keymode, args.key )
+                                    get_value_for_sort( a, args.keymode, keyslist )
                                 );
                             }) ,
                             args.return_type
@@ -699,12 +702,14 @@ module.exports = ( category_id )=>{ api.addBlocks([
                                 args.return_type
                             );
                         }
+                        // 不包含的keymode会抛出错误
+                        var keyslist = for_json_get_keys( args.keymode, args.key );
                         return returnType(
                             v.sort((a,b)=>{
                                 return (
-                                    get_value_for_sort( b, args.keymode, args.key )
+                                    get_value_for_sort( b, args.keymode, keyslist )
                                     -
-                                    get_value_for_sort( a, args.keymode, args.key )
+                                    get_value_for_sort( a, args.keymode, keyslist )
                                 );
                             }) ,
                             args.return_type

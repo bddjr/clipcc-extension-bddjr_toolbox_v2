@@ -21,14 +21,6 @@ module.exports = ( category_id )=>{ api.addBlocks([
     },
 //===========================================================
     {//2.0.0
-        opcode: `${category_id}.vm_toJSON`,
-        messageId: `${category_id}.vm_toJSON`,
-        categoryId: category_id,
-        type: type.BlockType.REPORTER,
-        function: (args,util)=> vm.toJSON()
-    },
-//===========================================================
-    {//2.0.0
         opcode: `${category_id}.console`,
         messageId: `${category_id}.console`,
         categoryId: category_id,
@@ -38,7 +30,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
                 type: type.ParameterType.STRING,
                 default: 'log',
                 menu: make_menus(
-                    '', //`${category_id}.console.menu`,
+                    `${category_id}.console.menu`,
                     'log',
                     'error',
                     'debug',
@@ -71,6 +63,14 @@ module.exports = ( category_id )=>{ api.addBlocks([
 
             console[ args.type ]( ...v );
         }
+    },
+//===========================================================
+    {//2.0.0
+        opcode: `${category_id}.vm_toJSON`,
+        messageId: `${category_id}.vm_toJSON`,
+        categoryId: category_id,
+        type: type.BlockType.REPORTER,
+        function: (args,util)=> vm.toJSON()
     },
 
 ]);}

@@ -89,8 +89,13 @@
 "string_and_type.double_quotation_marks": "[v] to \"string\"",
 "string_and_type.remove_double_quotes": "\"string\" [v] to string",
 "string_and_type.typeof": "typeof [v]",
+"string_and_type.undefined": "⚠⚠ undefined",
+"string_and_type.null": "⚠⚠ null",
 "string_and_type.is_array": "[v] is array",
 "string_and_type.is_NaN": "[v] is NaN",
+"string_and_type.is_Finite": "[v] is Finite",
+"string_and_type.is_undefined": "[v] is undefined",
+"string_and_type.is_null": "[v] is null",
 "string_and_type.string": "string [v]",
 "string_and_type.number": "⚠⚠NaN⚠⚠ number [v]",
 "string_and_type.to_scratch_allowed_type": "[v] to Scratch allowed type",
@@ -98,6 +103,8 @@
 "string_and_type.return": "return [v]",
 "string_and_type.to_scratch_boolean": "[v] to Scratch boolean",
 "string_and_type.to_js_boolean": "[v] to JS boolean",
+"string_and_type.true": "true",
+"string_and_type.false": "false",
 "string_and_type.integer_toString": "interger [v] toString [count]",
 "string_and_type.string_parseInt": "⚠⚠NaN⚠⚠ string [v] parseint [count]",
 "string_and_type.string_trim": "string [v][menu]",
@@ -239,7 +246,12 @@
 "debug": "BTBv2 debug",
 "debug.err_msg": "BTBv2 error massage",
 "debug.vm_toJSON": "vm.toJSON()",
-"debug.console": "console [type][v]"
+"debug.console": "console [type][v]",
+"debug.console.menu.log": "log",
+"debug.console.menu.error": "error",
+"debug.console.menu.debug": "debug",
+"debug.console.menu.info": "info",
+"debug.console.menu.warn": "warn"
 
 
 }
