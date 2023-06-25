@@ -184,33 +184,30 @@ function get_sprite_target( util, sprite_type, sprite_name ){
     }
 
     // 接下来的肯定要用这个
-    if(util.bddjr_toolbox_v2_sprite_number_cache === undefined){
+    if( !util.bddjr_toolbox_v2_sprite_number_cache ){
         // 没有缓存的对象就创建
         util.bddjr_toolbox_v2_sprite_number_cache = {
             name: {
                 /* 说明格式
-                Stage: {
-                    number: 0,
-                    id: "|2On|0TzTO[DRM@?5DX.",
-                    drawableID: 0,
-                },
+                Stage: 0 //number
                 */
             },
             id: {
                 /* 说明格式
-                "|2On|0TzTO[DRM@?5DX.": {
-                    number: 0,
-                    name: "Stage",
-                    drawableID: 0,
-                },
+                "|2On|0TzTO[DRM@?5DX.": 0 //number
                 */
             },
             drawableID: {
                 /* 说明格式
+                0: 0 //number
+                */
+            },
+            number: {
+                /* 说明格式
                 0: {
-                    number: 0,
                     name: "Stage",
                     id: "|2On|0TzTO[DRM@?5DX.",
+                    drawableID: 0
                 },
                 */
             },
@@ -225,31 +222,34 @@ function get_sprite_target( util, sprite_type, sprite_name ){
 
     switch( sprite_type ){
         case 'sprite':
-            if(
-              NC.name !== undefined
-              &&
-              NC.name[ sprite_name ] !== undefined
-            ){
+            if(NC.name[ sprite_name ] !== undefined){
                 // 读缓存
                 if(
                   util.runtime.targets[
-                    NC.name[ sprite_name ].number
+                    NC.name[ sprite_name ]
                   ].sprite.name === sprite_name
                 ){
                     // 有缓存的对象，有对应名称的缓存，直接返回
                     return util.runtime.targets[
-                        NC.name[ sprite_name ].number
+                        NC.name[ sprite_name ]
                     ];
                 }
-                // 对不上？依据缓存名称删除对应id与drawableID的缓存，再删除对应name的缓存。
+                // 对不上？依据缓存名称删除对应id缓存
                 Reflect.deleteProperty(
                     NC.id ,
-                    NC.name[ sprite_name ]?.id
+                    NC.number[ NC.name[ sprite_name ] ]?.id
                 );
+                // 对应drawableID
                 Reflect.deleteProperty(
                     NC.drawableID ,
-                    NC.name[ sprite_name ]?.drawableID
+                    NC.number[ NC.name[ sprite_name ] ]?.drawableID
                 );
+                // 对应number一整块
+                Reflect.deleteProperty(
+                    NC.number ,
+                    NC.name[ sprite_name ]
+                );
+                // name
                 Reflect.deleteProperty(
                     NC.name ,
                     sprite_name
@@ -272,31 +272,34 @@ function get_sprite_target( util, sprite_type, sprite_name ){
             // 退出switch
             break;
         case 'id':
-            if(
-              NC.id !== undefined
-              &&
-              NC.id[ sprite_name ] !== undefined
-            ){
+            if(NC.id[ sprite_name ] !== undefined){
                 // 读缓存
                 if(
                   util.runtime.targets[
-                    NC.id[ sprite_name ].number
+                    NC.id[ sprite_name ]
                   ].id === sprite_name
                 ){
                     // 有缓存的对象，有对应名称的缓存，直接返回
                     return util.runtime.targets[
-                        NC.id[ sprite_name ].number
+                        NC.id[ sprite_name ]
                     ];
                 }
-                // 对不上？依据缓存名称删除对应name与drawableID的缓存，再删除对应id的缓存。
+                // 对不上？依据缓存名称删除对应name缓存
                 Reflect.deleteProperty(
                     NC.name ,
-                    NC.id[ sprite_name ]?.name
+                    NC.number[ NC.name[ sprite_name ] ]?.name
                 );
+                // 对应drawableID
                 Reflect.deleteProperty(
                     NC.drawableID ,
-                    NC.id[ sprite_name ]?.drawableID
+                    NC.number[ NC.name[ sprite_name ] ]?.drawableID
                 );
+                // 对应number一整块
+                Reflect.deleteProperty(
+                    NC.number ,
+                    NC.name[ sprite_name ]
+                );
+                // id
                 Reflect.deleteProperty(
                     NC.id ,
                     sprite_name
@@ -315,31 +318,34 @@ function get_sprite_target( util, sprite_type, sprite_name ){
             // 退出switch
             break;
         case 'drawableID':
-            if(
-              NC.drawableID !== undefined
-              &&
-              NC.drawableID[ sprite_name ] !== undefined
-            ){
+            if(NC.drawableID[ sprite_name ] !== undefined){
                 // 读缓存
                 if(
                   util.runtime.targets[
-                    NC.drawableID[ sprite_name ].number
+                    NC.drawableID[ sprite_name ]
                   ].drawableID === sprite_name
                 ){
                     // 有缓存的对象，有对应名称的缓存，直接返回
                     return util.runtime.targets[
-                        NC.drawableID[ sprite_name ].number
+                        NC.drawableID[ sprite_name ]
                     ];
                 }
-                // 对不上？依据缓存名称删除对应name与id的缓存，再删除对应drawableID的缓存。
+                // 对不上？依据缓存名称删除对应name缓存
                 Reflect.deleteProperty(
                     NC.name ,
-                    NC.drawableID[ sprite_name ]?.name
+                    NC.number[ NC.name[ sprite_name ] ]?.name
                 );
+                // 对应id
                 Reflect.deleteProperty(
                     NC.id ,
-                    NC.drawableID[ sprite_name ]?.id
+                    NC.number[ NC.name[ sprite_name ] ]?.id
                 );
+                // 对应number一整块
+                Reflect.deleteProperty(
+                    NC.number ,
+                    NC.name[ sprite_name ]
+                );
+                // drawableID
                 Reflect.deleteProperty(
                     NC.drawableID ,
                     sprite_name
@@ -364,23 +370,34 @@ function get_sprite_target( util, sprite_type, sprite_name ){
         throw `Can not get sprite target from type:${sprite_type} name:${sprite_name}`;
     }
 
+
     // 加入缓存
     if(return_target.isOriginal){
         // 不是克隆体才会缓存名称
-        NC.name[ return_target.sprite.name ] = {
-            number: return_target_number,
-            id: return_target.id,
-            drawableID: return_target.drawableID,
-        }    
+        NC.name[ return_target.sprite.name ] = return_target_number;
     }
-    NC.id[ return_target.id ] = {
+    NC.id[ return_target.id ] = return_target_number;
+    NC.drawableID[ return_target.drawableID ] = return_target_number;
+
+    if(NC.number[ return_target_number ]){
+        // 有残留的number缓存？找到关联的其它缓存并清除
+        Reflect.deleteProperty(
+            NC.name ,
+            NC.number[ return_target_number ].name
+        );
+        Reflect.deleteProperty(
+            NC.id ,
+            NC.number[ return_target_number ].id
+        );
+        Reflect.deleteProperty(
+            NC.drawableID ,
+            NC.number[ return_target_number ].drawableID
+        );
+    }
+    // 覆盖一个新的缓存到number
+    NC.number[ return_target_number ] = {
         number: return_target_number,
         drawableID: return_target.drawableID,
-        // 不是克隆体才会缓存名称，null从逻辑上不会导致故障
-        name: return_target.isOriginal ? return_target.sprite.name : null
-    }
-    NC.drawableID[ return_target.drawableID ] = {
-        number: return_target_number,
         id: return_target.id,
         // 不是克隆体才会缓存名称，null从逻辑上不会导致故障
         name: return_target.isOriginal ? return_target.sprite.name : null
@@ -471,4 +488,35 @@ function get_var_obj_from_sprite_name( util, sprite_type, sprite_name, type, nam
 }
 
 module.exports.get_var_obj_from_sprite_name = get_var_obj_from_sprite_name;
+
+//===========================================================
+//2.0.0
+
+function get_clone_number( target ){
+    // 角色本体始终在0的位置
+    if(target.isOriginal){
+        return 0;
+    }
+
+    const Clones = target.sprite.clones;
+
+    // 尝试读缓存
+    if(target.bddjr_toolbox_v2_clone_id_cache !== undefined){
+        if (Clones[ target.bddjr_toolbox_v2_clone_id_cache ]?.id === target.id){
+            // 缓存编号对应id验证通过
+            return target.bddjr_toolbox_v2_clone_id_cache;
+        }
+        // 验证不过？重新找
+    }
+
+    // 从下标1开始重新查找
+    for( let i=1; i<Clones.length ; i++ ){
+        if (Clones[i]?.id === target.id){
+            // 找到了，缓存然后返回
+            return target.bddjr_toolbox_v2_clone_id_cache = i;
+        }
+    }
+}
+
+module.exports.get_clone_number = get_clone_number;
 

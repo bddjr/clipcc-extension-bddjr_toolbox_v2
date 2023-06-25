@@ -10,6 +10,7 @@ const {
     get_var_obj_from_sprite_name,
     to_scratch_type,
     get_sprite_target,
+    get_clone_number,
 } = require('../myjs/tools.js');
 
 const {
@@ -236,19 +237,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         messageId: `${category_id}.clone_number`,
         categoryId: category_id,
         type: type.BlockType.REPORTER,
-        function: (args,util) => {
-            // 角色本体始终在0的位置
-            if( util.target.isOriginal ){
-                return 0
-            }
-            // 这个不能缓存，会出bug
-            const Clones = util.target.sprite.clones;
-            for(let i in Clones){
-                if (Clones[i].id === util.target.id){
-                    return i
-                }
-            }
-        }
+        function: (args,util) => get_clone_number(util.target)
     },
 //===========================================================
     {//2.0.0
