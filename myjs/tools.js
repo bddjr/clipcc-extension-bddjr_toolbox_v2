@@ -34,15 +34,15 @@ module.exports.err_msg = err_msg;
  * @param {string} block_opcode
  */
 function my_log_block_error(block_id, block_opcode, error){
-    const err_str = 
-`ClipCCExtensionBlockError
-{"extension":"${extension_id}",
+    let err_str = 
+`{"extension":"${extension_id}",
 "blockid":${JSON.stringify(block_id)},
 "opcode":${JSON.stringify(block_opcode)},
-"time":"${Date.now()}",
+"time":${Date.now()},
 "error":${JSON.stringify(error.toString())}}`
     ;
     err_msg[0] = err_str;
+    err_str = 'ClipCCExtensionBlockError\n' + err_str;
     console.error( err_str );
     console.error( error );
     return err_str;
