@@ -26,7 +26,7 @@
 
 请在对应目录打开 powershell ，再执行如下操作。  
 
-1、使用 git 从 github 仓库拉取内容，然后删除多余的 .git 文件夹。  
+1、使用 git 从 github 仓库拉取内容。  
 > 如果你需要提交 Pull Request ，请 fork 为自己的仓库，再从自己的仓库拉取。
 ```
 git clone https://github.com/bddjr/clipcc-extension-bddjr_toolbox_v2
