@@ -1,8 +1,8 @@
 {
     "id": "bddjr.toolbox_v2",
     "author": "bddjr",
-    "version": "2.0.0.pre3",
+    "version": "2.0.0",
     "icon": "assets/icon.webp",
-    "inset_icon": "assets/inset_icon.svg",
+    "inset_icon": "assets/inset_icon.webp",
     "api": 1
 }

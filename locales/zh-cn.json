@@ -1,7 +1,6 @@
 {
+"description": "字符串与类型 JSON 数组 正则表达式 便利积木 临时变量 Set",
 
-"name": "bddjr toolbox v2",
-"description": "bddjr toolbox v2",
 
 "typemenu.default": "⚠⚠Object⚠⚠ 默认",
 "typemenu.ScratchType": "Scratch类型",
