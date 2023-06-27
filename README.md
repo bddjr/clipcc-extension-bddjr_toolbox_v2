@@ -1,9 +1,22 @@
 # bddjr toolbox v2
-重写 nhjrToolBox 。
+
+![./assets/icon.png](./assets/icon.png)  
+
+> 图片原作者 [Edit-Mr](https://github.com/Edit-Mr)  
+
+重写 nhjrToolBox  
+字符串与类型 JSON 数组 正则表达式 便利积木 临时变量 Set  
 
 ***
 ## 文档
 （待制作）
+
+***
+# 截图
+
+![./README-pic/屏幕截图%202023-06-27%20132309.png](./README-pic/屏幕截图%202023-06-27%20132309.png)
+
+[点此查看更多截图](./README-pic/README.md)
 
 ***
 ## 拉取并打包
