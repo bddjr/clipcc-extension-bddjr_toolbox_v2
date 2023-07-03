@@ -13,6 +13,9 @@ const {
 } = require('../myjs/menus.js');
 
 
+//===========================================================
+//2.0.0
+
 function get_value_for_sort( thisjson, keymode, keyslist ){
     if( typeof keyslist === 'number' ){
         return thisjson[ keyslist ];
@@ -56,6 +59,8 @@ function get_value_for_sort( thisjson, keymode, keyslist ){
     }
     return thisjson
 }
+
+//===========================================================
 
 
 /** @param {string} category_id */
@@ -164,7 +169,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
     },
 //===========================================================
-    {//2.0.0
+    {//2.0.1
         opcode: `${category_id}.lastIndexOf`,
         messageId: `${category_id}.lastIndexOf`,
         categoryId: category_id,
@@ -186,10 +191,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     v1 = JSON.parse( v1 );
 
                 let v2 = args.v2;
-                if( typeof v2 !== 'object' )
+                if( typeof v2 !== 'object' ){
                     try{
                         v2 = JSON.parse( v2 );
                     }catch{}
+                }
 
                 return v1.lastIndexOf(v2);
 
@@ -538,7 +544,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
     },
 //===========================================================
-    {//2.0.0
+    {//2.0.1
         opcode: `${category_id}.concat`,
         messageId: `${category_id}.concat`,
         categoryId: category_id,
@@ -566,10 +572,8 @@ module.exports = ( category_id )=>{ api.addBlocks([
 
                 let v2 = args.v2;
                 if( typeof v2 !== 'object' ){
-                    if( typeof v2 === 'string' )
-                        v2 = `[${v2}]`;
                     try{
-                        v2 = JSON.parse( v2 );
+                        v2 = JSON.parse(`[${v2}]`);
                     }catch{}
                 }
 

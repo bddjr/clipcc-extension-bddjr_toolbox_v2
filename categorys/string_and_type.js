@@ -597,7 +597,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         function: (args,util)=> String.fromCharCode( args.n1 )
     },
 //===========================================================
-    {//2.0.0
+    {//2.0.1
         opcode: `${category_id}.repeat`,
         messageId: `${category_id}.repeat`,
         categoryId: category_id,
@@ -605,14 +605,38 @@ module.exports = ( category_id )=>{ api.addBlocks([
         param: {
             v: {
                 type: type.ParameterType.STRING,
-                default: '哦'
+                default: '我爱你！'
             },
             n1: {
                 type: type.ParameterType.NUMBER,
-                default: '2'
+                default: '520'
             }
         },
         function: (args,util)=> String( args.v ).repeat( args.n1 )
+    },
+//===========================================================
+    {//2.0.1
+        opcode: `${category_id}.instanceof`,
+        messageId: `${category_id}.instanceof`,
+        categoryId: category_id,
+        type: type.BlockType.BOOLEAN,
+        param: {
+            v1: {
+                type: undefined
+            },
+            v2: {
+                type: type.ParameterType.STRING,
+                default: 'Set'
+            },
+        },
+        function: (args,util)=>{
+            try{
+                // @ts-ignore
+                return args.v1 instanceof window[ args.v2 ];
+            }catch(e){
+                return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e );
+            }
+        }
     },
 
 ]);}

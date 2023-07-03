@@ -113,7 +113,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
     },
 //======================================================================================================================
-    {//2.0.0
+    {//2.0.1
         opcode: `${category_id}.set_value`,
         messageId: `${category_id}.set_value`,
         categoryId: category_id,
@@ -170,6 +170,10 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     setKey = keyslist;
                 else if( args.keymode === 'Array' ){
                     for( let i=0 ; i< keyslist.length-1 ; i++ ){
+                        if( (+i)<0 && Array.isArray(thisjson) ){
+                            // 兼容数组负数下标取值
+                            i = thisjson.length + (+i);
+                        }
                         thisjson = thisjson[ keyslist[i] ];
                     }
                     setKey = keyslist.slice(-1);
@@ -177,16 +181,32 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     if( Array.isArray( keyslist ) ){
                         for( let i of keyslist ){
                             if( Array.isArray( i ) ){
+                                if( Array.isArray(thisjson) && (+i[0])<0 ){
+                                    // 兼容数组负数下标取值
+                                    i[0] = thisjson.length + (+i[0]);
+                                }
                                 thisjson = thisjson[ i[0] ];
                                 if( i[1] ==='?.' && !thisjson )
                                     break;
                             }else{
+                                if( Array.isArray(thisjson) && (+i)<0 ){
+                                    // 兼容数组负数下标取值
+                                    i = thisjson.length + (+i);
+                                }
                                 setKey = i ;
                             }
                         }
                     }else{ // typeof keyslist === 'string'
+                        if( Array.isArray(thisjson) && (+keyslist)<0 ){
+                            // 兼容数组负数下标取值
+                            keyslist = thisjson.length + (+keyslist);
+                        }
                         setKey = keyslist;
                     }
+                }
+                if( Array.isArray(thisjson) && (+setKey)<0 ){
+                    // 兼容数组负数下标取值
+                    setKey = thisjson.length + (+setKey);
                 }
                 switch( args.operator ){
                     case '=':
@@ -293,7 +313,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
     },
 //======================================================================================================================
-    {//2.0.0
+    {//2.0.1
         opcode: `${category_id}.deleteProperty`,
         messageId: `${category_id}.deleteProperty`,
         categoryId: category_id,
@@ -335,6 +355,10 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     setKey = keyslist;
                 else if( args.keymode === 'Array' ){
                     for( let i=0 ; i< keyslist.length-1 ; i++ ){
+                        if( (+i)<0 && Array.isArray(thisjson) ){
+                            // 兼容数组负数下标取值
+                            i = thisjson.length + (+i);
+                        }
                         thisjson = thisjson[ keyslist[i] ];
                     }
                     setKey = keyslist.slice(-1);
@@ -342,16 +366,32 @@ module.exports = ( category_id )=>{ api.addBlocks([
                     if( Array.isArray( keyslist ) ){
                         for( let i of keyslist ){
                             if( Array.isArray( i ) ){
+                                if( Array.isArray(thisjson) && (+i[0])<0 ){
+                                    // 兼容数组负数下标取值
+                                    i[0] = thisjson.length + (+i[0]);
+                                }
                                 thisjson = thisjson[ i[0] ];
                                 if( i[1] ==='?.' && !thisjson )
                                     break;
                             }else{
+                                if( Array.isArray(thisjson) && (+i)<0 ){
+                                    // 兼容数组负数下标取值
+                                    i = thisjson.length + (+i);
+                                }
                                 setKey = i ;
                             }
                         }
                     }else{ // typeof keyslist === 'string'
+                        if( Array.isArray(thisjson) && (+keyslist)<0 ){
+                            // 兼容数组负数下标取值
+                            keyslist = thisjson.length + (+keyslist);
+                        }
                         setKey = keyslist;
                     }
+                }
+                if( Array.isArray(thisjson) && (+setKey)<0 ){
+                    // 兼容数组负数下标取值
+                    setKey = thisjson.length + (+setKey);
                 }
                 Reflect.deleteProperty( thisjson, setKey );
                 return returnType( globaljson, args.return_type );

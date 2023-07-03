@@ -26,7 +26,7 @@ var err_msg = [''];
 module.exports.err_msg = err_msg;
 
 //===========================================================
-//2.0.0
+//2.0.1
 
 /**
  * my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
@@ -34,15 +34,14 @@ module.exports.err_msg = err_msg;
  * @param {string} block_opcode
  */
 function my_log_block_error(block_id, block_opcode, error){
-    let err_str = 
+    let err_str = 'ClipCCExtensionBlockError\n' + (
+        err_msg[0] =
 `{"extension":"${extension_id}",
 "blockid":${JSON.stringify(block_id)},
 "opcode":${JSON.stringify(block_opcode)},
 "time":${Date.now()},
 "error":${JSON.stringify(error.toString())}}`
-    ;
-    err_msg[0] = err_str;
-    err_str = 'ClipCCExtensionBlockError\n' + err_str;
+    );
     console.error( err_str );
     console.error( error );
     return err_str;
@@ -51,24 +50,23 @@ function my_log_block_error(block_id, block_opcode, error){
 module.exports.my_log_block_error = my_log_block_error;
 
 //===========================================================
-//2.0.0
+//2.0.1
 
-/** 目前已知 scratch 变量保存的内容仅接受字符串、布尔值、整数、浮点数 */
+/** 目前已知 scratch 变量保存的内容仅接受字符串、布尔值、有限数 */
 function to_scratch_type(v){
     switch( typeof v ){
         case 'string':
           case 'boolean':
             return v;
         case 'number':
-            if( !Number.isFinite(v) || Number.isNaN(v) )
-                break;
-            return v;
+            if( Number.isFinite(v) )
+                return v;
+            break;
         case 'object':
             try{
                 return JSON.stringify(v);
-            }catch{
-                break;
-            }
+            }catch{}
+            break;
     }
     return String(v);
 }
@@ -161,13 +159,13 @@ function returnType( v, t , b=true ){
 module.exports.returnType = returnType;
 
 //===========================================================
-//2.0.0
+//2.0.1
 
 /**
  * 
  * @param {object} util 
  * @param {string} sprite_type  stage sprite thisSprite thisClone id drawableID
- * @param {string} sprite_name  name id drawableID
+ * @param {string|*} sprite_name  name id drawableID
  * @returns {any} object
  */
 function get_sprite_target( util, sprite_type, sprite_name ){
@@ -227,7 +225,7 @@ function get_sprite_target( util, sprite_type, sprite_name ){
                 if(
                   util.runtime.targets[
                     NC.name[ sprite_name ]
-                  ].sprite.name === sprite_name
+                  ].sprite.name == sprite_name //是故意用弱类型判断的
                 ){
                     // 有缓存的对象，有对应名称的缓存，直接返回
                     return util.runtime.targets[
@@ -259,7 +257,7 @@ function get_sprite_target( util, sprite_type, sprite_name ){
             for( let i in util.runtime.targets ){
                 let J = util.runtime.targets[i];
                 if(
-                  J.sprite.name === sprite_name
+                  J.sprite.name == sprite_name //是故意用弱类型判断的
                   &&
                   !J.isStage //用的是sprite模式，所以肯定不能是背景
                 ){
@@ -271,13 +269,14 @@ function get_sprite_target( util, sprite_type, sprite_name ){
             }
             // 退出switch
             break;
+
         case 'id':
             if(NC.id[ sprite_name ] !== undefined){
                 // 读缓存
                 if(
                   util.runtime.targets[
                     NC.id[ sprite_name ]
-                  ].id === sprite_name
+                  ].id == sprite_name //是故意用弱类型判断的
                 ){
                     // 有缓存的对象，有对应名称的缓存，直接返回
                     return util.runtime.targets[
@@ -308,7 +307,7 @@ function get_sprite_target( util, sprite_type, sprite_name ){
             // 重新查找
             for( let i in util.runtime.targets ){
                 let J = util.runtime.targets[i];
-                if(J.id === sprite_name){
+                if(J.id == sprite_name){ //是故意用弱类型判断的
                     // 找到了，将要返回的值设置为这个对象，然后退出循环
                     return_target_number = i;
                     return_target = J;
@@ -317,13 +316,14 @@ function get_sprite_target( util, sprite_type, sprite_name ){
             }
             // 退出switch
             break;
+
         case 'drawableID':
             if(NC.drawableID[ sprite_name ] !== undefined){
                 // 读缓存
                 if(
                   util.runtime.targets[
                     NC.drawableID[ sprite_name ]
-                  ].drawableID === sprite_name
+                  ].drawableID == sprite_name //是故意用弱类型判断的
                 ){
                     // 有缓存的对象，有对应名称的缓存，直接返回
                     return util.runtime.targets[
@@ -354,7 +354,7 @@ function get_sprite_target( util, sprite_type, sprite_name ){
             // 重新查找
             for( let i in util.runtime.targets ){
                 let J = util.runtime.targets[i];
-                if(J.drawableID === sprite_name){
+                if(J.drawableID == sprite_name){ //是故意用弱类型判断的
                     // 找到了，将要返回的值设置为这个对象，然后退出循环
                     return_target_number = i;
                     return_target = J;
@@ -409,16 +409,19 @@ function get_sprite_target( util, sprite_type, sprite_name ){
 module.exports.get_sprite_target = get_sprite_target;
 
 //===========================================================
-//2.0.0
+//2.0.1
 
 /**
  * 
  * @param {object} target 
  * @param {string} type  '' 'list' 'broadcast_msg'
- * @param {*} name 
+ * @param {string|*} name 
  * @returns {any} object
  */
 function get_var_obj_from_target( target, type, name ){
+    if(typeof name !== 'string'){
+        name = String(name);
+    }
     const vars = target.variables;
     if( target.bddjr_toolbox_v2_var_id_cache === undefined ){
         // 没有这个缓存变量，那么初始化它
@@ -438,7 +441,7 @@ function get_var_obj_from_target( target, type, name ){
         if( cache_this_id !== undefined ){
             // 找得到这个值
             if(
-              vars[ cache_this_id ].name === name
+              vars[ cache_this_id ].name == name //故意用弱类型判断
               &&
               vars[ cache_this_id ].type === type
             ){
@@ -455,7 +458,7 @@ function get_var_obj_from_target( target, type, name ){
     // 没能成功返回缓存，那么重新生成并缓存。
     for( let i of Object.values(vars) ){
         if(
-          i.name === name
+          i.name == name //故意用弱类型判断
           &&
           i.type === type
         ){

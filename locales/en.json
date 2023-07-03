@@ -83,6 +83,7 @@
 
 "help": "BTBv2 help",
 "help.jumptogithub": "Click here jump to github",
+"help.doc": "Click here jump to doc",
 
 
 "string_and_type": "BTBv2 string and type",
@@ -106,7 +107,7 @@
 "string_and_type.true": "true",
 "string_and_type.false": "false",
 "string_and_type.integer_toString": "interger [v] toString [count]",
-"string_and_type.string_parseInt": "⚠⚠NaN⚠⚠ string [v] parseint [count]",
+"string_and_type.string_parseInt": "⚠⚠NaN⚠⚠ [v] parseint [count]",
 "string_and_type.string_trim": "string [v][menu]",
 "string_and_type.string_trim.menu.trim": "trim",
 "string_and_type.string_trim.menu.trimStart": "trimStart",
@@ -125,6 +126,7 @@
 "string_and_type.charCodeAt": "⚠⚠NaN⚠⚠ [v] get char code at [n1]",
 "string_and_type.string_fromCharCode": "char code [n1] to string",
 "string_and_type.repeat": "string [v] repeat [n1]",
+"string_and_type.instanceof": "[v1] instanceof [v2]",
 
 
 "json": "BTBv2 JSON",
@@ -251,7 +253,9 @@
 "debug.console.menu.error": "error",
 "debug.console.menu.debug": "debug",
 "debug.console.menu.info": "info",
-"debug.console.menu.warn": "warn"
+"debug.console.menu.warn": "warn",
+"debug.temp_var": "global all temp vars , return type [return_type]",
+"debug.sprite_temp_var": "[sprite_type][sprite_name] all temp vars , return type [return_type]"
 
 
 }
