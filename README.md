@@ -1,41 +1,31 @@
-# Website
+# bddjr toolbox v2 document
+BTBv2扩展文档
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+***
+## 拉取并运行
 
-### Installation
+演示环境：Windows 的 powershell  
 
+请在对应目录打开 powershell ，再执行如下操作。  
+
+1、使用 git 从 github 仓库拉取内容。  
+> 如果你需要提交 Pull Request ，请 fork 为自己的仓库，再从自己的仓库拉取。
 ```
-$ yarn
-```
-
-### Local Development
-
-```
-$ yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-### Build
-
-```
-$ yarn build
+git clone -b doc --single-branch https://github.com/bddjr/clipcc-extension-bddjr_toolbox_v2 clipcc-extension-bddjr_toolbox_v2/doc/
+cd clipcc-extension-bddjr_toolbox_v2/doc/
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
+2、使用 nodejs 的 npm 全局安装 yarn  
 ```
-$ USE_SSH=true yarn deploy
+npm -g install yarn
 ```
 
-Not using SSH:
-
+3、使用 yarn 安装前置插件
 ```
-$ GIT_USER=<Your GitHub username> yarn deploy
+yarn install
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+4、使用 yarn 运行
+```
+yarn start
+```
