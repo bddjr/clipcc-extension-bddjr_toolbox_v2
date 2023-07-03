@@ -9,7 +9,7 @@
 
 ***
 ## 文档
-（待制作）
+<https://btbv2.ccext.bddjr.cn/>
 
 ***
 # 截图
@@ -20,7 +20,6 @@
 
 ***
 ## 拉取并打包
-（待验证）  
 
 演示环境：Windows 的 powershell  
 
@@ -33,24 +32,17 @@ git clone https://github.com/bddjr/clipcc-extension-bddjr_toolbox_v2
 cd clipcc-extension-bddjr_toolbox_v2
 ```
 
-2、（非必要）删除 .git 文件夹
-> 如果你需要提交 Pull Request ，请不要执行这个
-```
-rm .git
-```
-
-3、使用 nodejs 的 npm 全局安装 yarn  
+2、使用 nodejs 的 npm 全局安装 yarn  
 ```
 npm -g install yarn
 ```
 
-4、使用 yarn 安装前置插件
+3、使用 yarn 安装前置插件
 ```
 yarn install
-yarn install clipcc-extension
 ```
 
-5、使用 yarn 打包
+4、使用 yarn 打包
 ```
 yarn build
 ```
