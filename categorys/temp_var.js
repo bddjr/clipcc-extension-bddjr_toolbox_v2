@@ -30,7 +30,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         }
     },
 //===========================================================
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.set_value`,
         messageId: `${category_id}.set_value`,
         categoryId: category_id,
@@ -52,6 +52,9 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
+                if( args.name == '__proto__' ){
+                    throw "Can not get or set __proto__ !";
+                }
                 if( !vm.bddjr_toolbox_v2_temp_var ){ //undefined
                     vm.bddjr_toolbox_v2_temp_var = {}
                 }
@@ -96,7 +99,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
-                if( vm.bddjr_toolbox_v2_temp_var?.hasOwnProperty( args.name ) ){
+                if(
+                  vm.bddjr_toolbox_v2_temp_var
+                  &&
+                  Object.hasOwn( vm.bddjr_toolbox_v2_temp_var, args.name )
+                ){
                     return vm.bddjr_toolbox_v2_temp_var[ args.name ];
                 }
                 //return undefined
@@ -131,7 +138,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         }
     },
 //===========================================================
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.var_exist`,
         messageId: `${category_id}.var_exist`,
         categoryId: category_id,
@@ -144,7 +151,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
-                return !!vm.bddjr_toolbox_v2_temp_var?.hasOwnProperty( args.name );
+                return !!(
+                    vm.bddjr_toolbox_v2_temp_var
+                    &&
+                    Object.hasOwn( vm.bddjr_toolbox_v2_temp_var, args.name )
+                );
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
             }
@@ -181,7 +192,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         }
     },
 //===========================================================
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.set_sprite_var_value`,
         messageId: `${category_id}.set_sprite_var_value`,
         categoryId: category_id,
@@ -214,6 +225,9 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
+                if( args.name == '__proto__' ){
+                    throw "Can not get or set __proto__ !";
+                }
                 let target = get_sprite_target( util, args.sprite_type, args.sprite_name );
                 if( !target.bddjr_toolbox_v2_temp_var ){ //undefined
                     target.bddjr_toolbox_v2_temp_var = {}
@@ -271,7 +285,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         function: (args,util)=>{
             try{
                 let tv = get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var;
-                if( tv?.hasOwnProperty( args.name ) ){
+                if( tv && Object.hasOwn( tv, args.name ) ){
                     return tv[ args.name ]
                 }
                 //return undefined
@@ -318,7 +332,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         }
     },
 //===========================================================
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.sprite_var_exist`,
         messageId: `${category_id}.sprite_var_exist`,
         categoryId: category_id,
@@ -342,7 +356,8 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
-                return !!get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var?.hasOwnProperty( args.name );
+                let tv = get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var;
+                return !!( tv && Object.hasOwn( tv, args.name ) );
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
             }
