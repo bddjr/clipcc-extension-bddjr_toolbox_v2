@@ -83,7 +83,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         }
     },
 //===========================================================
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.get_value`,
         messageId: `${category_id}.get_value`,
         categoryId: category_id,
@@ -96,7 +96,10 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
-                return vm.bddjr_toolbox_v2_temp_var?.[ args.name ];
+                if( vm.bddjr_toolbox_v2_temp_var?.hasOwnProperty( args.name ) ){
+                    return vm.bddjr_toolbox_v2_temp_var[ args.name ];
+                }
+                //return undefined
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
             }
@@ -243,7 +246,7 @@ module.exports = ( category_id )=>{ api.addBlocks([
         }
     },
 //===========================================================
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.get_sprite_var_value`,
         messageId: `${category_id}.get_sprite_var_value`,
         categoryId: category_id,
@@ -267,7 +270,11 @@ module.exports = ( category_id )=>{ api.addBlocks([
         },
         function: (args,util)=>{
             try{
-                return get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var?.[ args.name ];
+                let tv = get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var;
+                if( tv?.hasOwnProperty( args.name ) ){
+                    return tv[ args.name ]
+                }
+                //return undefined
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
             }
