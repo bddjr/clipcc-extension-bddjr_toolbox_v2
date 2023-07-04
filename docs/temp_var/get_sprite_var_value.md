@@ -27,7 +27,7 @@ any | undefined
 ***
 ## 源码
 ```js title="/categorys/temp_var.js"
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.get_sprite_var_value`,
         messageId: `${category_id}.get_sprite_var_value`,
         categoryId: category_id,
@@ -51,7 +51,11 @@ any | undefined
         },
         function: (args,util)=>{
             try{
-                return get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var?.[ args.name ];
+                let tv = get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var;
+                if( tv?.hasOwnProperty( args.name ) ){
+                    return tv[ args.name ]
+                }
+                //return undefined
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
             }
