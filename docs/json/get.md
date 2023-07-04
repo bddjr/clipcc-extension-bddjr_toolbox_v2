@@ -33,7 +33,7 @@ return_type：String
 ***
 ## 源码
 ```js title="/categorys/json.js"
-    {//2.0.0
+    {//2.0.2
         opcode: `${category_id}.get`,
         messageId: `${category_id}.get`,
         categoryId: category_id,
@@ -88,7 +88,7 @@ return_type：String
                     if( Array.isArray( keyslist ) ){
                         for( let i of keyslist ){
                             if( Array.isArray( i ) ){
-                                if( Array.isArray(thisjson) && (+i[0])<0 ){
+                                if( (+i[0])<0 && Array.isArray(thisjson)  ){
                                     // 兼容数组负数下标取值
                                     i[0] = thisjson.length + (+i[0]);
                                 }
@@ -98,7 +98,7 @@ return_type：String
                                 if( i[1] ==='?.' && !thisjson )
                                     break;
                             }else{
-                                if( Array.isArray(thisjson) && (+i)<0 ){
+                                if( (+i)<0 && Array.isArray(thisjson) ){
                                     // 兼容数组负数下标取值
                                     i = thisjson.length + (+i);
                                 }
@@ -108,7 +108,7 @@ return_type：String
                             }
                         }
                     }else{ // typeof keyslist === 'string'
-                        if( Array.isArray(thisjson) && (+keyslist)<0 ){
+                        if( (+keyslist)<0 && Array.isArray(thisjson) ){
                             // 兼容数组负数下标取值
                             keyslist = thisjson.length + (+keyslist);
                         }
@@ -120,7 +120,7 @@ return_type：String
 
                 return returnType(
                     // 防止返回prototype里的函数
-                    lastjson.hasOwnProperty(lastkey) ? thisjson : undefined ,
+                    Object.hasOwn( lastjson, lastkey ) ? thisjson : undefined ,
                     args.return_type
                 );
 

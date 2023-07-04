@@ -31,7 +31,7 @@ v: any
 ***
 ## 源码
 ```js title="/categorys/temp_var.js"
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.set_sprite_var_value`,
         messageId: `${category_id}.set_sprite_var_value`,
         categoryId: category_id,
@@ -64,6 +64,9 @@ v: any
         },
         function: (args,util)=>{
             try{
+                if( args.name == '__proto__' ){
+                    throw "Can not get or set __proto__ !";
+                }
                 let target = get_sprite_target( util, args.sprite_type, args.sprite_name );
                 if( !target.bddjr_toolbox_v2_temp_var ){ //undefined
                     target.bddjr_toolbox_v2_temp_var = {}

@@ -27,7 +27,7 @@ Boolean
 ***
 ## 源码
 ```js title="/categorys/temp_var.js"
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.sprite_var_exist`,
         messageId: `${category_id}.sprite_var_exist`,
         categoryId: category_id,
@@ -51,7 +51,8 @@ Boolean
         },
         function: (args,util)=>{
             try{
-                return !!get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var?.hasOwnProperty( args.name );
+                let tv = get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var;
+                return !!( tv && Object.hasOwn( tv, args.name ) );
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
             }

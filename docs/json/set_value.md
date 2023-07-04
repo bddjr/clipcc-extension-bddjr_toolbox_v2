@@ -26,7 +26,7 @@ return_type：String
 ***
 ## 源码
 ```js title="/categorys/json.js"
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.set_value`,
         messageId: `${category_id}.set_value`,
         categoryId: category_id,
@@ -94,7 +94,7 @@ return_type：String
                     if( Array.isArray( keyslist ) ){
                         for( let i of keyslist ){
                             if( Array.isArray( i ) ){
-                                if( Array.isArray(thisjson) && (+i[0])<0 ){
+                                if( (+i[0])<0 && Array.isArray(thisjson) ){
                                     // 兼容数组负数下标取值
                                     i[0] = thisjson.length + (+i[0]);
                                 }
@@ -102,18 +102,22 @@ return_type：String
                                 if( i[1] ==='?.' && !thisjson )
                                     break;
                             }else{
+                                if( (+i)<0 && Array.isArray(thisjson) ){
+                                    // 兼容数组负数下标取值
+                                    i = thisjson.length + (+i);
+                                }
                                 setKey = i ;
                             }
                         }
                     }else{ // typeof keyslist === 'string'
-                        if( Array.isArray(thisjson) && (+keyslist)<0 ){
+                        if( (+keyslist)<0 && Array.isArray(thisjson) ){
                             // 兼容数组负数下标取值
                             keyslist = thisjson.length + (+keyslist);
                         }
                         setKey = keyslist;
                     }
                 }
-                if( Array.isArray(thisjson) && (+setKey)<0 ){
+                if( (+setKey)<0 && Array.isArray(thisjson) ){
                     // 兼容数组负数下标取值
                     setKey = thisjson.length + (+setKey);
                 }

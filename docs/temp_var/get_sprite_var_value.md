@@ -52,7 +52,7 @@ any | undefined
         function: (args,util)=>{
             try{
                 let tv = get_sprite_target( util, args.sprite_type, args.sprite_name ).bddjr_toolbox_v2_temp_var;
-                if( tv?.hasOwnProperty( args.name ) ){
+                if( tv && Object.hasOwn( tv, args.name ) ){
                     return tv[ args.name ]
                 }
                 //return undefined

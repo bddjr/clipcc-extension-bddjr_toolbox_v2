@@ -34,7 +34,11 @@ any | undefined
         },
         function: (args,util)=>{
             try{
-                if( vm.bddjr_toolbox_v2_temp_var?.hasOwnProperty( args.name ) ){
+                if(
+                  vm.bddjr_toolbox_v2_temp_var
+                  &&
+                  Object.hasOwn( vm.bddjr_toolbox_v2_temp_var, args.name )
+                ){
                     return vm.bddjr_toolbox_v2_temp_var[ args.name ];
                 }
                 //return undefined

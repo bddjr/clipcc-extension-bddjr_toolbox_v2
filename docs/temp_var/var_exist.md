@@ -21,7 +21,7 @@ Boolean
 ***
 ## 源码
 ```js title="/categorys/temp_var.js"
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.var_exist`,
         messageId: `${category_id}.var_exist`,
         categoryId: category_id,
@@ -34,7 +34,11 @@ Boolean
         },
         function: (args,util)=>{
             try{
-                return !!vm.bddjr_toolbox_v2_temp_var?.hasOwnProperty( args.name );
+                return !!(
+                    vm.bddjr_toolbox_v2_temp_var
+                    &&
+                    Object.hasOwn( vm.bddjr_toolbox_v2_temp_var, args.name )
+                );
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )
             }

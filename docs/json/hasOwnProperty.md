@@ -22,7 +22,7 @@ Boolean
 ***
 ## 源码
 ```js title="/categorys/json.js"
-    {//2.0.0
+    {//2.0.2
         opcode: `${category_id}.hasOwnProperty`,
         messageId: `${category_id}.hasOwnProperty`,
         categoryId: category_id,
@@ -43,7 +43,7 @@ Boolean
                 if( typeof thisjson !== 'object' )
                     thisjson = JSON.parse( thisjson );
 
-                return thisjson.hasOwnProperty( args.key );
+                return Object.hasOwn( thisjson, args.key )
 
             }catch(e){
                 return my_log_block_error( util.currentBlock.id, util.currentBlock.opcode, e )

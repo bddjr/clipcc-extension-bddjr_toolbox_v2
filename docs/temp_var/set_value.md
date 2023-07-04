@@ -25,7 +25,7 @@ v: any
 ***
 ## 源码
 ```js title="/categorys/temp_var.js"
-    {//2.0.1
+    {//2.0.2
         opcode: `${category_id}.set_value`,
         messageId: `${category_id}.set_value`,
         categoryId: category_id,
@@ -47,6 +47,9 @@ v: any
         },
         function: (args,util)=>{
             try{
+                if( args.name == '__proto__' ){
+                    throw "Can not get or set __proto__ !";
+                }
                 if( !vm.bddjr_toolbox_v2_temp_var ){ //undefined
                     vm.bddjr_toolbox_v2_temp_var = {}
                 }
