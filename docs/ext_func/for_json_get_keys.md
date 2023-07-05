@@ -14,12 +14,12 @@ for json get keys
 ***
 ## 源码
 ```js title="/myjs/to_scratch_boolean.js"
-//2.0.2
+//2.0.3
 
 /**
  * 
  * @param {string} keymode  '.' 'list'
- * @param {string|number} keystr  'key.key2'
+ * @param {string|number|Array} keystr  'key.key2'
  * @returns {any[]|string|number} 如果 keymode 是 '.' ，最后一项是字符串，前面的是列表，单个键返回的只是字符串。如果 keymode 是 'list' ，全是字符串。
  */
 function for_json_get_keys( keymode, keystr ){
@@ -28,6 +28,36 @@ function for_json_get_keys( keymode, keystr ){
 
     let anti__proto__ = "Can not get or set __proto__ !";
     if( keymode === '.' ){
+        if( Array.isArray( keystr ) ){
+            // 是数组，那么执行检查
+            for(let i of keystr){
+                if( Array.isArray( i ) ){
+                    if(
+                      i.length !== 2
+                       ||
+                      !['number','string'].includes( i[0] )
+                       ||
+                      !['.','?.'].includes( i[1] )
+                    ){
+                        throw "Not allowed keystr Array format";
+                    }
+                    if( i[0] == '__proto__' ){
+                        throw anti__proto__;
+                    }
+                }else if( typeof i === 'string' ){
+                    if( i == '__proto__' ){
+                        throw anti__proto__;
+                    }
+                }else{
+                    throw "Not allowed keystr type!";
+                }
+            }
+            // 检查了，没问题
+            return keystr;
+        }
+        if( typeof keystr !== 'string' ){
+            throw "Not allowed keystr type!";
+        }
         if( !keystr.includes('.') ){
             if( keystr == '__proto__' ){
                 throw anti__proto__;
@@ -70,15 +100,28 @@ function for_json_get_keys( keymode, keystr ){
         return outkeys;
     }
     if( keymode === 'Array' ){
-        let thiskeystr = keystr.trim();
-        if( thiskeystr[0] !== '[' )
-            thiskeystr = '[' + thiskeystr;
-        if( thiskeystr.slice(-1) !== ']' )
-            thiskeystr += ']';
-        let outkeys = JSON.parse( thiskeystr );
-        if( outkeys.includes('__proto__') ){
-            throw anti__proto__;
+        let outkeys;
+        if( Array.isArray( keystr ) ){
+            outkeys = keystr;
+        }else if( typeof keystr === 'string' ){
+            let thiskeystr = keystr.trim();
+            if( thiskeystr[0] !== '[' )
+                thiskeystr = '[' + thiskeystr;
+            if( thiskeystr.slice(-1) !== ']' )
+                thiskeystr += ']';
+            outkeys = JSON.parse( thiskeystr );
+        }else{
+            throw "Not allowed keystr type!";
         }
+        for(let i of outkeys){
+            if( !['number','string'].includes( typeof i ) ){
+                throw "Not allowed keystr Array format";
+            }
+            if( i == '__proto__' ){
+                throw anti__proto__;
+            }
+        }
+        // 检查了，没问题
         return outkeys;
     }
     throw 'Not allowed keymode!';
