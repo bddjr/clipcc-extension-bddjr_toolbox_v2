@@ -7,9 +7,6 @@
 重写 nhjrToolBox  
 字符串与类型 JSON 数组 正则表达式 便利积木 临时变量 Set  
 
-***
-## 文档
-<https://btbv2.ccext.bddjr.cn/>
 
 ***
 # 截图
